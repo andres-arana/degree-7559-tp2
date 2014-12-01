@@ -1,8 +1,6 @@
 #include "util/app.h"
 #include "raii/signal.h"
 
-#include <iostream>
-
 using namespace std;
 
 class client : public util::app {
@@ -12,7 +10,7 @@ class client : public util::app {
 
   protected:
     virtual void do_run() override {
-      cout << "Running" << endl;
+      log.info("Running client");
     }
 };
 

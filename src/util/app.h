@@ -2,6 +2,7 @@
 #define __UTIL__APP_H_INCLUDED__
 
 #include "util/sync_log.h"
+#include "raii/signal.h"
 #include "tclap/CmdLine.h"
 #include <string>
 
@@ -16,17 +17,14 @@ namespace util {
     public:
       explicit app(const std::string &name);
 
-      explicit app(const app& other) = delete;
-      app &operator=(const app &other) = delete;
-
-      explicit app(app&& other) = delete;
-      app & operator=(app &&other) = delete;
-
       int run(int argc, char **argv);
 
       virtual ~app() {};
 
     protected:
+
+      bool is_halted() const;
+
       sync_log log;
 
       TCLAP::CmdLine args;
@@ -34,6 +32,8 @@ namespace util {
       virtual void do_run() = 0;
 
     private:
+      sig_atomic_t halt;
+      raii::signal sigint;
       TCLAP::ValueArg<int> log_level;
   };
 }

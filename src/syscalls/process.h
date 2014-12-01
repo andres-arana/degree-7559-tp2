@@ -8,14 +8,7 @@
 #include "syscalls/interrupt.h"
 
 namespace syscalls {
-    int fork(const std::string &command);
-
-    int wait(pid_t pid);
-
     pid_t getpid();
-
-    void execv(
-        const std::string &command, const std::vector<std::string> &args);
 }
 
 #endif

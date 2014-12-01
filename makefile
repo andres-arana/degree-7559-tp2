@@ -1,7 +1,7 @@
 .PHONY: all run doc doc-preview doc-spell srcdoc srcdoc-preview clean export
 
 EXECS=app-server app-client
-LIBS=util raii syscalls
+LIBS=util raii syscalls shared
 
 EXECS_PATHS=$(addprefix build/exec/, $(EXECS))
 
@@ -28,6 +28,7 @@ doc-spell: docs/informe.tex
 clean:
 	rm -rf build
 	rm -f app.log
+	rm -f people.db
 
 ###############################################################################
 # Executable building
@@ -59,7 +60,7 @@ endef
 
 define GENERATE_LINK_RUNLES
 
-build/exec/$(1): $$($(1)_objs) $$(util_objs) $$(raii_objs) $$(syscalls_objs) | build/exec
+build/exec/$(1): $$($(1)_objs) $$(util_objs) $$(raii_objs) $$(syscalls_objs) $$(shared_objs) | build/exec
 	$$(CC) $$^ -o $$@
 
 endef
