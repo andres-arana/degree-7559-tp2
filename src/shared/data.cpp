@@ -37,11 +37,11 @@ msgs::server msgs::server::new_client() {
 }
 
 msgs::server msgs::server::query_all(const long client_id) {
-  return msgs::server {
-    msgs::server_type,
-    msgs::server::query_all_subtype,
-    client_id
-  };
+  msgs::server result;
+  result.type = msgs::server_type;
+  result.subtype = msgs::server::query_all_subtype;
+  result.client_id = client_id;
+  return result;
 }
 
 msgs::server msgs::server::upsert(long client_id, const person &p) {

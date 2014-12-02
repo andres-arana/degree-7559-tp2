@@ -35,9 +35,21 @@ class appclient : public util::app {
       client::context context { queue, log, client };
       client::remote_db db(context);
 
+      log.debug("Before inserting new person");
+      auto records = db.query_all();
+      for (auto &p : records) {
+        log.debug("  $", p);
+      }
+
       log.debug("Inserting new person");
       auto record = db.upsert(shared::person {0, "Andres", "Maipu 1855", "47955709"});
       log.debug("Inserted person $", record);
+
+      log.debug("After inserting new person");
+      records = db.query_all();
+      for (auto &p : records) {
+        log.debug("  $", p);
+      }
     }
 
   private:

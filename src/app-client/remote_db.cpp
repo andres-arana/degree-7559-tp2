@@ -48,7 +48,7 @@ shared::people remote_db::query_all() {
   c.log.debug("Querying all records through remote db");
 
   c.log.debug("Sending query all server message");
-  /* c.queue.send(shared::msgs::server::query_all(c.client_id)); */
+  c.queue.send(shared::msgs::server::query_all(c.client_id));
   c.log.debug("Message sent");
 
   return ::accumulate_records(c);
