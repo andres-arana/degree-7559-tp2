@@ -5,38 +5,40 @@
 #include <algorithm>
 #include <iterator>
 
-class db {
-  public:
-    explicit db();
+namespace server {
+  class db {
+    public:
+      explicit db();
 
-    explicit db(const db& other) = delete;
-    db &operator=(const db& other) = delete;
+      explicit db(const db& other) = delete;
+      db &operator=(const db& other) = delete;
 
-    explicit db(db &&other) = delete;
-    db &operator=(db &&other) = delete;
+      explicit db(db &&other) = delete;
+      db &operator=(db &&other) = delete;
 
-    const shared::people all() const;
+      const shared::people all() const;
 
-    template<typename T>
-    const shared::people lookup(const T &query) const {
-      shared::people result;
-      std::copy_if(
-          data.begin(),
-          data.end(),
-          std::back_inserter(result),
-          query);
+      template<typename T>
+      const shared::people lookup(const T &query) const {
+        shared::people result;
+        std::copy_if(
+            data.begin(),
+            data.end(),
+            std::back_inserter(result),
+            query);
 
-      return result;
-    }
+        return result;
+      }
 
-    const shared::stats stats() const;
+      const shared::stats stats() const;
 
-    void upsert(const shared::person &person);
+      void upsert(const shared::person &person);
 
-    ~db();
+      ~db();
 
-  private:
-    shared::people data;
-};
+    private:
+      shared::people data;
+  };
+}
 
 #endif

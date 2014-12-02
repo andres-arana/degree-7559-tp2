@@ -5,6 +5,7 @@
 #include <fstream>
 
 using namespace std;
+using namespace server;
 
 namespace {
   unsigned int generate_id(const shared::people &data) {

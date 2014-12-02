@@ -28,6 +28,32 @@ namespace shared {
   struct stats {
     unsigned int record_count;
   };
+
+  namespace msgs {
+
+    constexpr long server_type = 1;
+    struct server {
+      long type;
+      long subtype;
+
+      static constexpr long new_client_subtype = 1;
+      static server new_client();
+    };
+
+    constexpr long broadcast_type = 2;
+    struct broadcast {
+      long type;
+      long id;
+
+      static broadcast client_id(long id);
+    };
+
+    constexpr long client_type_offset = 100;
+    struct client {
+      long type;
+    };
+
+  }
 }
 
 #endif

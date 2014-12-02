@@ -14,3 +14,19 @@ pair<bool, person> person::deserialize_from(std::istream &is) {
 
   return make_pair(!is.eof(), result);
 }
+
+constexpr long msgs::server::new_client_subtype;
+
+msgs::server msgs::server::new_client() {
+  return msgs::server {
+    msgs::server_type,
+    msgs::server::new_client_subtype
+  };
+}
+
+msgs::broadcast msgs::broadcast::client_id(long id) {
+  return msgs::broadcast {
+    msgs::broadcast_type,
+    id
+  };
+}

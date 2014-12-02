@@ -1,6 +1,6 @@
 #include "app-server/queries.h"
 
-using namespace queries;
+using namespace server::queries;
 
 bool by_id::operator()(const shared::person &p) const {
   return p.id == id;
