@@ -37,9 +37,13 @@ namespace shared {
     struct server {
       long type;
       long subtype;
+      long client_id;
 
       static constexpr long new_client_subtype = 1;
       static server new_client();
+
+      static constexpr long query_all_subtype = 2;
+      static server query_all(const long client_id);
     };
 
     constexpr long broadcast_type = 2;

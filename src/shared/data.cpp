@@ -34,6 +34,16 @@ msgs::server msgs::server::new_client() {
   return result;
 }
 
+constexpr long msgs::server::query_all_subtype;
+
+msgs::server msgs::server::query_all(const long client_id) {
+  return msgs::server {
+    msgs::server_type,
+    msgs::server::query_all_subtype,
+    client_id
+  };
+}
+
 msgs::broadcast msgs::broadcast::client_id(long id) {
   msgs::broadcast result;
   result.type = msgs::broadcast_type;

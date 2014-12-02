@@ -1,5 +1,6 @@
 #include "app-server/dispatcher.h"
 #include "app-server/handler_new_client.h"
+#include "app-server/handler_query_all.h"
 #include "shared/data.h"
 
 using namespace server;
@@ -11,6 +12,10 @@ dispatcher::dispatcher(context &c)
     handlers.insert(std::make_pair(
           msgs::server::new_client_subtype,
           std::unique_ptr<handler>(new handler_new_client(c))));
+
+    handlers.insert(std::make_pair(
+          msgs::server::query_all_subtype,
+          std::unique_ptr<handler>(new handler_query_all(c))));
   }
 
 void dispatcher::dispatch_next() {
