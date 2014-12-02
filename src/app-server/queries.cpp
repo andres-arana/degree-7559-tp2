@@ -10,6 +10,3 @@ bool by_name::operator()(const shared::person &p) const {
   return std::string(p.name) == name;
 }
 
-bool by_phone::operator()(const shared::person &p) const {
-  return std::string(p.phone) == tel;
-}

@@ -1,15 +1,17 @@
-#include "app-server/handler_query_all.h"
+#include "app-server/handler_query_by_name.h"
+#include "app-server/queries.h"
+#include <string>
 
 using namespace server;
 
-handler_query_all::handler_query_all(context &c)
+handler_query_by_name::handler_query_by_name(context &c)
   : handler(c) {
 
   }
 
-void handler_query_all::handle(shared::msgs::server &message) {
-  c.log.debug("Handling server event subtype $: query_all", message.subtype);
-  auto result = c.data.all();
+void handler_query_by_name::handle(shared::msgs::server &message) {
+  c.log.debug("Handling server event subtype $: query_by_name", message.subtype);
+  auto result = c.data.lookup(queries::by_name { std::string(message.data.name_query) });
 
   for (shared::person &p : result) {
     c.log.debug("Sending client $ message record with $", message.client_id, p);

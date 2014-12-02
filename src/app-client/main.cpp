@@ -35,20 +35,32 @@ class appclient : public util::app {
       client::context context { queue, log, client };
       client::remote_db db(context);
 
-      log.debug("Before inserting new person");
+      cout << "Before inserting new person, showing all records" << endl;
       auto records = db.query_all();
       for (auto &p : records) {
-        log.debug("  $", p);
+        cout << "  " << p << endl;
       }
 
-      log.debug("Inserting new person");
+      cout << "Inserting new person" << endl;
       auto record = db.upsert(shared::person {0, "Andres", "Maipu 1855", "47955709"});
-      log.debug("Inserted person $", record);
+      cout << "  " << record << endl;
 
-      log.debug("After inserting new person");
+      cout << "After inserting new person, showing all records" << endl;
       records = db.query_all();
       for (auto &p : records) {
-        log.debug("  $", p);
+        cout << "  " << p << endl;
+      }
+
+      cout << "Querying by existing name" << endl;
+      records = db.query_by_name("Andres");
+      for (auto &p : records) {
+        cout << "  " << p << endl;
+      }
+
+      cout << "Querying by unexisting name" << endl;
+      records = db.query_by_name("Pepe");
+      for (auto &p : records) {
+        cout << "  " << p << endl;
       }
     }
 

@@ -3,6 +3,7 @@
 
 #include "app-client/context.h"
 #include "shared/data.h"
+#include <string>
 
 namespace client {
   class remote_db {
@@ -12,6 +13,8 @@ namespace client {
       shared::person upsert(const shared::person &p);
 
       shared::people query_all();
+
+      shared::people query_by_name(const std::string &name);
 
     private:
       context &c;

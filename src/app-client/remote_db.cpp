@@ -53,3 +53,13 @@ shared::people remote_db::query_all() {
 
   return ::accumulate_records(c);
 }
+
+shared::people remote_db::query_by_name(const std::string &name) {
+  c.log.debug("Querying records by name $ through remote db", name);
+
+  c.log.debug("Sending query by name server message");
+  c.queue.send(shared::msgs::server::query_by_name(c.client_id, name));
+  c.log.debug("Message sent");
+
+  return ::accumulate_records(c);
+}

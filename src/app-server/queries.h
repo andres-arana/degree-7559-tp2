@@ -15,11 +15,6 @@ namespace server {
         const std::string name;
         bool operator()(const shared::person &p) const;
     };
-
-    struct by_phone {
-      const std::string tel;
-      bool operator()(const shared::person &p) const;
-    };
   }
 }
 

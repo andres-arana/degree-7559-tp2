@@ -1,5 +1,6 @@
 #include "shared/data.h"
 #include <cstring>
+#include <algorithm>
 
 using namespace std;
 using namespace shared;
@@ -25,6 +26,7 @@ std::ostream& shared::operator<<(std::ostream& os, const person &p) {
 
 constexpr long msgs::server::new_client_subtype;
 constexpr long msgs::server::query_all_subtype;
+constexpr long msgs::server::query_by_name_subtype;
 constexpr long msgs::server::upsert_subtype;
 constexpr long msgs::client::record_subtype;
 constexpr long msgs::client::end_of_records_subtype;
@@ -41,6 +43,18 @@ msgs::server msgs::server::query_all(const long client_id) {
   result.type = msgs::server_type;
   result.subtype = msgs::server::query_all_subtype;
   result.client_id = client_id;
+  return result;
+}
+
+msgs::server msgs::server::query_by_name(const long client_id, const std::string &name) {
+  msgs::server result;
+  result.type = msgs::server_type;
+  result.subtype = msgs::server::query_by_name_subtype;
+  result.client_id = client_id;
+  std::strncpy(
+      result.data.name_query,
+      name.c_str(),
+      name.length() < person::name_length ? name.length() : person::name_length);
   return result;
 }
 
