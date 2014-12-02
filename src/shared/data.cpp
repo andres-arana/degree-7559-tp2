@@ -24,6 +24,8 @@ std::ostream& shared::operator<<(std::ostream& os, const person &p) {
 }
 
 constexpr long msgs::server::new_client_subtype;
+constexpr long msgs::server::query_all_subtype;
+constexpr long msgs::server::upsert_subtype;
 constexpr long msgs::client::record_subtype;
 constexpr long msgs::client::end_of_records_subtype;
 
@@ -34,14 +36,21 @@ msgs::server msgs::server::new_client() {
   return result;
 }
 
-constexpr long msgs::server::query_all_subtype;
-
 msgs::server msgs::server::query_all(const long client_id) {
   return msgs::server {
     msgs::server_type,
     msgs::server::query_all_subtype,
     client_id
   };
+}
+
+msgs::server msgs::server::upsert(long client_id, const person &p) {
+  msgs::server result;
+  result.type = msgs::server_type;
+  result.subtype = msgs::server::upsert_subtype;
+  result.client_id = client_id;
+  result.data.record = p;
+  return result;
 }
 
 msgs::broadcast msgs::broadcast::client_id(long id) {

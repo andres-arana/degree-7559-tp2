@@ -43,7 +43,7 @@ const shared::stats db::stats() const {
   return result;
 }
 
-void db::upsert(const shared::person &person) {
+shared::person db::upsert(const shared::person &person) {
   auto record = find_if(
       data.begin(),
       data.end(),
@@ -51,10 +51,12 @@ void db::upsert(const shared::person &person) {
 
   if (record != data.end()) {
     *record = person;
+    return person;
   } else {
     shared::person record = person;
     record.id = generate_id(data);
     data.push_back(record);
+    return record;
   }
 }
 

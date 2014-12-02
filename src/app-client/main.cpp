@@ -2,6 +2,7 @@
 #include "raii/signal.h"
 #include "raii/msgqueue.h"
 #include "shared/data.h"
+#include "app-client/remote_db.h"
 
 using namespace std;
 
@@ -30,25 +31,13 @@ class appclient : public util::app {
       log.debug("Received message with client id $", client_id_message.id);
       auto client = client_id_message.id;
 
-      log.debug("Sending query_all message");
-      queue.send(shared::msgs::server::query_all(client));
+      log.debug("Initializing remote db");
+      client::context context { queue, log, client };
+      client::remote_db db(context);
 
-      log.debug("Waiting for query_all message");
-      while( true ) {
-
-        log.debug("Waiting message from server");
-
-        auto message = queue.receive<shared::msgs::client>(
-          shared::msgs::client_type_offset + client);
-
-        if (message.subtype == shared::msgs::client::record_subtype) {
-          log.debug("Message arrives $", message.data.record);
-        } else {
-          log.debug("End of messages");
-          break;
-        }
-
-      }
+      log.debug("Inserting new person");
+      auto record = db.upsert(shared::person {0, "Andres", "Maipu 1855", "47955709"});
+      log.debug("Inserted person $", record);
     }
 
   private:

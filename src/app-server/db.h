@@ -32,7 +32,7 @@ namespace server {
 
       const shared::stats stats() const;
 
-      void upsert(const shared::person &person);
+      shared::person upsert(const shared::person &person);
 
       ~db();
 
