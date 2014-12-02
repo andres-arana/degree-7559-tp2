@@ -23,6 +23,8 @@ namespace shared {
     static std::pair<bool, person> deserialize_from(std::istream &is);
   };
 
+  std::ostream& operator<<(std::ostream& os, const person &p);
+
   typedef std::vector<person> people;
 
   struct stats {

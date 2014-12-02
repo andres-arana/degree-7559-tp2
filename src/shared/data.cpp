@@ -15,7 +15,17 @@ pair<bool, person> person::deserialize_from(std::istream &is) {
   return make_pair(!is.eof(), result);
 }
 
+std::ostream& shared::operator<<(std::ostream& os, const person &p) {
+  return os << "Person(" <<
+    p.id << ", " <<
+    "'" << p.name << "', " <<
+    "'" << p.address << "', " <<
+    "'" << p.phone << "')";
+}
+
 constexpr long msgs::server::new_client_subtype;
+constexpr long msgs::client::record_subtype;
+constexpr long msgs::client::end_of_records_subtype;
 
 msgs::server msgs::server::new_client() {
   msgs::server result;
