@@ -19,7 +19,7 @@ namespace raii {
         syscalls::msgsnd(
             identifier,
             &message,
-            sizeof(T));
+            sizeof(T) - sizeof(long));
       }
 
       template<typename T>
@@ -30,7 +30,7 @@ namespace raii {
             identifier,
             type,
             &result,
-            sizeof(T));
+            sizeof(T) - sizeof(long));
 
         return result;
       }
