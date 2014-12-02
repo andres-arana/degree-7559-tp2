@@ -18,15 +18,30 @@ pair<bool, person> person::deserialize_from(std::istream &is) {
 constexpr long msgs::server::new_client_subtype;
 
 msgs::server msgs::server::new_client() {
-  return msgs::server {
-    msgs::server_type,
-    msgs::server::new_client_subtype
-  };
+  msgs::server result;
+  result.type = msgs::server_type;
+  result.subtype = msgs::server::new_client_subtype;
+  return result;
 }
 
 msgs::broadcast msgs::broadcast::client_id(long id) {
-  return msgs::broadcast {
-    msgs::broadcast_type,
-    id
-  };
+  msgs::broadcast result;
+  result.type = msgs::broadcast_type;
+  result.id = id;
+  return result;
+}
+
+msgs::client msgs::client::record(long client_id, person &p) {
+  msgs::client result;
+  result.type = msgs::client_type_offset + client_id;
+  result.subtype = msgs::client::record_subtype;
+  result.data.record = p;
+  return result;
+}
+
+msgs::client msgs::client::end_of_records(long client_id) {
+  msgs::client result;
+  result.type = msgs::client_type_offset + client_id;
+  result.subtype = msgs::client::end_of_records_subtype;
+  return result;
 }

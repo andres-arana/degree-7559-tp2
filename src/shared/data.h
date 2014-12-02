@@ -51,6 +51,17 @@ namespace shared {
     constexpr long client_type_offset = 100;
     struct client {
       long type;
+      long subtype;
+
+      union {
+        person record;
+      } data;
+
+      static constexpr long record_subtype = 1;
+      static client record(long client_id, person &p);
+
+      static constexpr long end_of_records_subtype = 2;
+      static client end_of_records(long client_id);
     };
 
   }
