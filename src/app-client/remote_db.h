@@ -14,6 +14,8 @@ namespace client {
 
       shared::people query_all();
 
+      shared::person query_by_id(const unsigned int person_id);
+
       shared::people query_by_name(const std::string &name);
 
     private:

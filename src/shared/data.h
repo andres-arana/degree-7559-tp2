@@ -42,6 +42,7 @@ namespace shared {
 
       union {
         person record;
+        unsigned int id_query;
         char name_query[person::name_length];
       } data;
 
@@ -53,6 +54,9 @@ namespace shared {
 
       static constexpr long query_all_subtype = 3;
       static server query_all(const long client_id);
+
+      static constexpr long query_by_id_subtype = 4;
+      static server query_by_id(const long client_id, const unsigned int person_id);
 
       static constexpr long query_by_name_subtype = 5;
       static server query_by_name(const long client_id, const std::string &name);

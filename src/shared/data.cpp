@@ -26,6 +26,7 @@ std::ostream& shared::operator<<(std::ostream& os, const person &p) {
 
 constexpr long msgs::server::new_client_subtype;
 constexpr long msgs::server::query_all_subtype;
+constexpr long msgs::server::query_by_id_subtype;
 constexpr long msgs::server::query_by_name_subtype;
 constexpr long msgs::server::upsert_subtype;
 constexpr long msgs::client::record_subtype;
@@ -43,6 +44,15 @@ msgs::server msgs::server::query_all(const long client_id) {
   result.type = msgs::server_type;
   result.subtype = msgs::server::query_all_subtype;
   result.client_id = client_id;
+  return result;
+}
+
+msgs::server msgs::server::query_by_id(const long client_id, const unsigned int person_id) {
+  msgs::server result;
+  result.type = msgs::server_type;
+  result.subtype = msgs::server::query_by_id_subtype;
+  result.client_id = client_id;
+  result.data.id_query = person_id;
   return result;
 }
 

@@ -3,6 +3,7 @@
 #include "app-server/handler_query_all.h"
 #include "app-server/handler_query_by_name.h"
 #include "app-server/handler_upsert.h"
+#include "app-server/handler_query_by_id.h"
 #include "shared/data.h"
 
 using namespace server;
@@ -26,6 +27,10 @@ dispatcher::dispatcher(context &c)
     handlers.insert(std::make_pair(
           msgs::server::upsert_subtype,
           std::unique_ptr<handler>(new handler_upsert(c))));
+
+    handlers.insert(std::make_pair(
+          msgs::server::query_by_id_subtype,
+          std::unique_ptr<handler>(new handler_query_by_id(c))));
   }
 
 void dispatcher::dispatch_next() {

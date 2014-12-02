@@ -54,6 +54,19 @@ shared::people remote_db::query_all() {
   return ::accumulate_records(c);
 }
 
+shared::person remote_db::query_by_id(const unsigned int person_id) {
+  c.log.debug("Querying by id records through remote db");
+
+  c.log.debug("Sending query by id server message");
+  c.queue.send(shared::msgs::server::query_by_id(c.client_id, person_id));
+  c.log.debug("Message sent");
+
+  auto results = ::accumulate_records(c);
+
+  c.log.debug("Received $ records", results.size());
+  return results[0];
+}
+
 shared::people remote_db::query_by_name(const std::string &name) {
   c.log.debug("Querying records by name $ through remote db", name);
 

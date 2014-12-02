@@ -62,6 +62,14 @@ class appclient : public util::app {
       for (auto &p : records) {
         cout << "  " << p << endl;
       }
+
+      log.debug("Querying by an existance id");
+      record = db.query_by_id(1);
+      log.debug("Result in an existence person $", record);
+
+      //log.debug("Querying by a corrupt id");
+      //record = db.query_by_id(10001);
+      //log.debug("Result with no person $");
     }
 
   private:
