@@ -31,7 +31,7 @@ remote_db::remote_db(context &c)
 
   }
 
-shared::person remote_db::upsert(const shared::person &p) {
+shared::people remote_db::upsert(const shared::person &p) {
   c.log.debug("Upserting record $", p);
 
   c.log.debug("Sending upsert message to server");
@@ -41,7 +41,7 @@ shared::person remote_db::upsert(const shared::person &p) {
   auto results = ::accumulate_records(c);
 
   c.log.debug("Received $ records", results.size());
-  return results[0];
+  return results;
 }
 
 shared::people remote_db::query_all() {
@@ -54,7 +54,7 @@ shared::people remote_db::query_all() {
   return ::accumulate_records(c);
 }
 
-shared::person remote_db::query_by_id(const unsigned int person_id) {
+shared::people remote_db::query_by_id(const unsigned int person_id) {
   c.log.debug("Querying by id records through remote db");
 
   c.log.debug("Sending query by id server message");
@@ -64,7 +64,7 @@ shared::person remote_db::query_by_id(const unsigned int person_id) {
   auto results = ::accumulate_records(c);
 
   c.log.debug("Received $ records", results.size());
-  return results[0];
+  return results;
 }
 
 shared::people remote_db::query_by_name(const std::string &name) {

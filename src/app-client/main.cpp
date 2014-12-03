@@ -3,6 +3,7 @@
 #include "raii/msgqueue.h"
 #include "shared/data.h"
 #include "app-client/remote_db.h"
+#include "app-client/repl.h"
 
 using namespace std;
 
@@ -33,43 +34,24 @@ class appclient : public util::app {
 
       log.debug("Initializing remote db");
       client::context context { queue, log, client };
-      client::remote_db db(context);
 
-      cout << "Before inserting new person, showing all records" << endl;
-      auto records = db.query_all();
-      for (auto &p : records) {
-        cout << "  " << p << endl;
+      log.debug("Starting REPL loop");
+      client::repl repl(context);
+
+      try {
+        while (!is_halted()) {
+          repl.read_eval_print();
+        }
+      } catch (syscalls::interrupt &e) {
+        log.debug("Syscall interrupted");
+      } catch (syscalls::removed_queue &e) {
+        log.info("Message queue closed, the server was closed");
+        cout << "The server was closed, terminating" << endl;
+      } catch (std::runtime_error &e) {
+        log.error("Uncaught runtime error: $", e.what());
       }
 
-      cout << "Inserting new person" << endl;
-      auto record = db.upsert(shared::person {0, "Andres", "Maipu 1855", "47955709"});
-      cout << "  " << record << endl;
-
-      cout << "After inserting new person, showing all records" << endl;
-      records = db.query_all();
-      for (auto &p : records) {
-        cout << "  " << p << endl;
-      }
-
-      cout << "Querying by existing name" << endl;
-      records = db.query_by_name("Andres");
-      for (auto &p : records) {
-        cout << "  " << p << endl;
-      }
-
-      cout << "Querying by unexisting name" << endl;
-      records = db.query_by_name("Pepe");
-      for (auto &p : records) {
-        cout << "  " << p << endl;
-      }
-
-      log.debug("Querying by an existance id");
-      record = db.query_by_id(1);
-      log.debug("Result in an existence person $", record);
-
-      //log.debug("Querying by a corrupt id");
-      //record = db.query_by_id(10001);
-      //log.debug("Result with no person $");
+      cout << "Bye!" << endl;
     }
 
   private:

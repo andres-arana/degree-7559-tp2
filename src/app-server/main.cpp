@@ -43,7 +43,7 @@ class appserver : public util::app {
           dispatcher.dispatch_next();
         }
       } catch (syscalls::interrupt &e) {
-        log.debug("Syscall interrupted, halt was set");
+        log.debug("Syscall interrupted");
       } catch (std::runtime_error &e) {
         log.error("Uncaught runtime error: $", e.what());
       }

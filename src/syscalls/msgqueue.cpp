@@ -28,7 +28,7 @@ void syscalls::msgsnd(int id, const void *message, size_t size) {
   auto result = ::msgsnd(id, message, size, 0);
 
   if (result < 0) {
-    if (errno == EIDRM) {
+    if (errno == EIDRM || errno == EINVAL) {
       throw syscalls::removed_queue("msgsnd");
     } else {
       syscalls::check_interrupt("msgsnd");
@@ -40,7 +40,7 @@ void syscalls::msgrcv(int id, long type, void *message, size_t size) {
   auto result = ::msgrcv(id, message, size, type, 0);
 
   if (result < 0) {
-    if (errno == EIDRM) {
+    if (errno == EIDRM || errno == EINVAL) {
       throw syscalls::removed_queue("msgrcv");
     } else {
       syscalls::check_interrupt("msgrcv");

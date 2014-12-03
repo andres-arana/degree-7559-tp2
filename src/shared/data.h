@@ -22,6 +22,12 @@ namespace shared {
     void serialize_to(std::ostream &os) const;
 
     static std::pair<bool, person> deserialize_from(std::istream &is);
+
+    static person from_values(
+        unsigned int id,
+        const std::string &name,
+        const std::string &address,
+        const std::string &phone);
   };
 
   std::ostream& operator<<(std::ostream& os, const person &p);

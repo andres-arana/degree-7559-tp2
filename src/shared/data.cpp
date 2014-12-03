@@ -16,6 +16,16 @@ pair<bool, person> person::deserialize_from(std::istream &is) {
   return make_pair(!is.eof(), result);
 }
 
+person person::from_values(unsigned int id, const string &name, const string &address, const string &phone) {
+  person result;
+  result.id = id;
+  strncpy(result.name, name.c_str(), person::name_length);
+  strncpy(result.address, address.c_str(), person::address_length);
+  strncpy(result.phone, phone.c_str(), phone_length);
+
+  return result;
+}
+
 std::ostream& shared::operator<<(std::ostream& os, const person &p) {
   return os << "Person(" <<
     p.id << ", " <<
