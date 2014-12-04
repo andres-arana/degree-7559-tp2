@@ -49,6 +49,8 @@ namespace util {
     std::vector<std::string> result { string_cast(value) };
     return svector(std::move(result), ts...);
   }
+
+  std::pair<std::string, std::string> ssplit_at(const std::string &s, char c);
 }
 
 #endif
