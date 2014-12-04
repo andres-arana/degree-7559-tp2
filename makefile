@@ -78,10 +78,10 @@ build/doc: | build
 build/doc/diagrams: | build/doc
 	mkdir build/doc/diagrams
 
-build/doc/diagrams/classes_diagram.png: docs/diagrams/classes_diagram.dia | build/doc/diagrams
-	dia --export=build/doc/diagrams/classes_diagram.png --filter=png docs/diagrams/classes_diagram.dia
+build/doc/diagrams/classes_diagram.jpeg: docs/diagrams/classes_diagram.dia | build/doc/diagrams
+	dia --export=build/doc/diagrams/classes_diagram.jpeg --filter=jpeg docs/diagrams/classes_diagram.dia
 
-build/doc/informe.pdf: docs/informe.tex build/doc/diagrams/classes_diagram.png | build/doc
+build/doc/informe.pdf: docs/informe.tex build/doc/diagrams/classes_diagram.jpeg | build/doc
 	pdflatex --output-directory build/doc docs/informe.tex
 	pdflatex --output-directory build/doc docs/informe.tex
 	pdflatex --output-directory build/doc docs/informe.tex
