@@ -73,13 +73,16 @@ $(foreach executable,$(EXECS),$(eval $(call GENERATE_LINK_RUNLES,$(executable)))
 # Documentation building
 ###############################################################################
 build/doc: | build
-	mkdir -p build/doc/diagrams
+	mkdir build/doc
+
+build/doc/diagrams: | build/doc
+	mkdir build/doc/diagrams
+
+build/doc/diagrams/classes_diagram.png: docs/diagrams/classes_diagram.dia | build/doc/diagrams
+	dia --export=build/doc/diagrams/classes_diagram.png --filter=png docs/diagrams/classes_diagram.dia
 
 build/doc/informe.pdf: docs/informe.tex build/doc/diagrams/classes_diagram.png | build/doc
 	pdflatex --output-directory build/doc docs/informe.tex
 	pdflatex --output-directory build/doc docs/informe.tex
 	pdflatex --output-directory build/doc docs/informe.tex
-
-build/doc/diagrams/classes_diagram.png: build docs/diagrams/classes_diagram.dia
-  dia --export=build/doc/diagrams/classes_diagram.png --filter=png docs/diagrams/classes_diagram.dia
 
